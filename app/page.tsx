@@ -2,14 +2,15 @@
 import EarthHero from "@/components/EarthHero";
 import SkillsSection from "@/components/SkillsSection";
 import EarthOverlay from "@/components/EarthOverlay";
+import ProjectsReveal from "@/components/ProjectsReveal";
+import ProjectsFolderReveal from "@/components/ProjectsFolderReveal";
 
 export default function Home() {
   return (
     <>
-      {/* Independent, fixed overlay (always on screen) */}
       <EarthOverlay />
 
-      {/* Full-screen landing: only intro is visible initially */}
+  
       <section id="hero" className="relative z-10 mx-auto flex min-h-screen max-w-6xl items-center px-6">
         <div className="max-w-xl">
           <h1 className="text-5xl font-bold tracking-tight md:text-6xl">Hi, I’m Darian.</h1>
@@ -21,23 +22,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Skills starts below the fold; reaching it pins the orb top-left */}
       <section id="skills" className="relative z-10 mx-auto max-w-6xl px-6 py-24">
         <h2 className="text-3xl font-semibold">Skills</h2>
         <SkillsSection />
-        {/* <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
-          {["React", "Next.js", "TypeScript", "Tailwind", "Framer Motion", "Three.js", "Node.js", "Figma"].map((s) => (
-            <div key={s} className="rounded-xl border border-white/10 bg-white/5 p-4 text-center">{s}</div>
-          ))}
-          
-        </div> */}
         
       </section>
-
-      {/* Other sections */}
-      <section id="work" className="relative z-10 mx-auto max-w-6xl px-6 py-24">
+      <section id="work" className="relative z-10 mx-auto max-w-6xl px-6 py-24 mb-10">
         <h2 className="text-3xl font-semibold">Selected Work</h2>
-        <p className="mt-3 text-white/70">…</p>
+        <ProjectsReveal />
+      {/* or */}
+      <ProjectsFolderReveal />
+        {/* <p className="mt-3 text-white/70">…</p> */}
       </section>
 
       <section id="contact" className="relative z-10 mx-auto max-w-6xl px-6 py-24 mb-52">

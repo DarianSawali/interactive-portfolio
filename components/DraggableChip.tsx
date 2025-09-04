@@ -17,7 +17,7 @@ function DraggableChip({ style, text, image, containerRef }: Props) {
     drag: true,
     dragConstraints: containerRef,
     dragElastic: 0.15,
-    dragMomentum: false,
+    dragMomentum: true,
     whileHover: { scale: 1.03 },
     whileTap: { scale: 0.97 },
     transition,
@@ -27,7 +27,7 @@ function DraggableChip({ style, text, image, containerRef }: Props) {
       touchAction: "none",
     } as React.CSSProperties,
     className:
-      "absolute cursor-grab active:cursor-grabbing select-none transform-gpu",
+      "absolute cursor-grab active:cursor-grabbing select-none transform-gpu ",
   };
 
   if (image && !text) {
@@ -36,7 +36,7 @@ function DraggableChip({ style, text, image, containerRef }: Props) {
         src={image}
         alt=""
         {...common}
-        className={`${common.className} w-16 sm:w-20 md:w-24 lg:w-28`}
+        className={`${common.className} w-20 sm:w-20 md:w-24 lg:w-28`}
       />
     );
   }
@@ -44,7 +44,7 @@ function DraggableChip({ style, text, image, containerRef }: Props) {
   return (
     <motion.div
       {...common}
-      className={`${common.className} px-3 py-2 md:px-4 md:py-3 rounded-full ring-1 ring-white/10 text-sm md:text-base font-light bg-white/5 backdrop-blur-md`}
+      className={`${common.className} px-3 py-2 md:px-4 md:py-3 rounded-full ring-1 ring-white/10 text-sm md:text-base font-light bg-white/5 backdrop-blur-md shadow-lg text-white whitespace-nowrap`}
     >
       {text}
     </motion.div>

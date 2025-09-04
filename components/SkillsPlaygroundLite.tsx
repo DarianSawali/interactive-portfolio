@@ -1,9 +1,7 @@
-// components/SkillsPlaygroundLite.tsx
 "use client";
 import { useRef } from "react";
 import DraggableChip from "./DraggableChip";
 
-// Put your items + positions here (percentages so it scales)
 const ITEMS: Array<{
   style: React.CSSProperties;
   text?: string;
@@ -24,23 +22,29 @@ export default function SkillsPlaygroundLite() {
   return (
     <section
       className="
-        relative w-full overflow-hidden
+        relative w-full overflow-hidden rounded-3xl
         before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-white/12
         after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-white/12
       "
       style={{ height: "clamp(260px, 44vh, 520px)" }}
     >
-      {/* Soft purple↔cyan glow underlay (cheap) */}
+      {/* Gradient shadow background (subtle, beneath content) */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -inset-8 -z-10 blur-2xl"
+        className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            "radial-gradient(40% 60% at 15% 0%, rgba(168,85,247,.22), transparent 60%), radial-gradient(40% 60% at 85% 100%, rgba(34,211,238,.22), transparent 60%)",
+            `
+            radial-gradient(60% 100% at 30% 0%,
+              rgba(168,85,247,0.22), rgba(168,85,247,0.00) 60%),
+            radial-gradient(60% 100% at 70% 100%,
+              rgba(34,211,238,0.22), rgba(34,211,238,0.00) 60%),
+            linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02))
+            `,
+          filter: "blur(8px)",
         }}
       />
 
-      {/* Drag bounds */}
       <div ref={boxRef} className="relative size-full">
         {ITEMS.map((it, i) => (
           <DraggableChip

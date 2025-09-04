@@ -12,8 +12,8 @@ export default function SkillsSection() {
   ];
 
   return (
-    <section id="skills" className="mx-auto max-w-6xl px-6 py-24">
-      <div className="-mx-6 md:-mx-8">
+    <section id="skills" className="mx-auto max-w-6xl px-6 py-24 z-10 relative">
+      <div className="-mx-6 md:-mx-8 mb-16 md:mb-24">
         <SkillsPlaygroundLite />
       </div>
 
@@ -26,7 +26,7 @@ export default function SkillsSection() {
             </div>
             <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
               <div
-                className="h-full rounded-full"
+                className="h-full rounded-full z-10 relative"
                 style={{
                   width: `${s.level * 100}%`,
                   background:
