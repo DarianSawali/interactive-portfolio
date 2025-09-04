@@ -28,7 +28,6 @@ export default function SkillsPlaygroundLite() {
       "
       style={{ height: "clamp(260px, 44vh, 520px)" }}
     >
-      {/* Gradient shadow background (subtle, beneath content) */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10"

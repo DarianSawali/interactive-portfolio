@@ -6,7 +6,6 @@ export type Project = {
   img?: string;
   href?: string;
   tags?: string[];
-  // add any props you want (description, year, etc.)
 };
 
 export default function ProjectCard({ project }: { project: Project }) {
@@ -14,7 +13,6 @@ export default function ProjectCard({ project }: { project: Project }) {
     <article className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md">
       <div className="aspect-[16/10] bg-white/5">
         {project.img ? (
-          // You can swap to next/image if you want optimization
           <img
             src={project.img}
             alt={project.title}

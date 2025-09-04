@@ -60,10 +60,8 @@ export default function ProjectsFolderRevealStack() {
       setOffsets(next);
     };
 
-    // measure on next frame so layout has settled
     const raf = requestAnimationFrame(measure);
 
-    // keep updated
     const ro = new ResizeObserver(() => measure());
     if (gridRef.current) ro.observe(gridRef.current);
 
@@ -86,10 +84,8 @@ export default function ProjectsFolderRevealStack() {
     <section ref={sectionRef} className="mx-auto max-w-6xl px-6 py-24">
       <h2 className="mb-10 text-3xl font-semibold">Projects</h2>
 
-      {/* Folder lid (optional) */}
       <FolderLid progress={scrollYProgress} />
 
-      {/* Grid (final layout) */}
       <div ref={gridRef} className="relative grid gap-5 md:grid-cols-3">
         {PROJECTS.map((p, i) => (
           <CardFromPile
@@ -129,11 +125,9 @@ function CardFromPile({
   project: { title: string; img?: string };
   i: number;
   offsets: { x: number; y: number }[] | null;
-  progress: any; // MotionValue<number>
+  progress: any;
   jitter: { rot: number; jx: number; jy: number; delay: number };
 }) {
-  // If we haven't measured yet, render the card in-place so it can be measured:
-  // - keep it visible (opacity-0), but present in the DOM
   if (!offsets) {
     return (
       <article
@@ -148,7 +142,6 @@ function CardFromPile({
     );
   }
 
-  // Stagger per card
   const start = 0.12 + jitter.delay;
   const end = start + 0.48;
 
@@ -171,7 +164,6 @@ function CardFromPile({
             alt=""
             className="h-full w-full object-cover"
             onLoad={() => {
-              // images can change height; trigger a resize to re-measure via RO
               window.dispatchEvent(new Event("resize"));
             }}
           />
