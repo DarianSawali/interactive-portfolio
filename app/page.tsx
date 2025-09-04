@@ -29,7 +29,7 @@ export default function Home() {
       </section>
       <section id="work" className="relative z-10 mx-auto max-w-6xl px-6 py-24 mb-10">
         <h2 className="text-3xl font-semibold">Selected Work</h2>
-        <ProjectsReveal />
+        {/* <ProjectsReveal /> */}
       {/* or */}
       <ProjectsFolderReveal />
         {/* <p className="mt-3 text-white/70">…</p> */}
