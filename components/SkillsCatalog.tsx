@@ -65,10 +65,20 @@ export default function SkillsCatalog() {
 function Category({ title, items }: { title: string; items: Item[] }) {
   return (
     <div className="mb-12">
-      <h3 className="mb-6 text-center text-lg font-semibold text-white/90">{title}</h3>
-      <ul className="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-6 sm:gap-1">
+      <h3 className="mb-6 text-center text-lg font-semibold text-white/90">
+        {title}
+      </h3>
+      <ul
+        className="
+          mx-auto flex max-w-5xl flex-wrap justify-center
+          gap-4 sm:gap-5
+        "
+      >
         {items.map(({ name, Icon }) => (
-          <li key={name}>
+          <li
+            key={name}
+            className="flex justify-center min-w-[40%] sm:min-w-[120px]"
+          >
             <Tile Icon={Icon} label={name} />
           </li>
         ))}
@@ -81,18 +91,14 @@ function Tile({ Icon, label }: { Icon: IconType; label: string }) {
   return (
     <div
       className="
-        group flex w-[130px] sm:w-[90px] flex-col items-center justify-center
-        gap-2 rounded-xl px-4 py-4
+        group flex flex-col items-center justify-center
+        gap-1 rounded-xl px-3 py-3
         text-center backdrop-blur-md transition
-        hover:scale-[1.04] hover:shadow-[0_12px_40px_-16px_rgba(168,85,247,0.25)]
+        hover:scale-[1.05] hover:shadow-[0_12px_40px_-16px_rgba(168,85,247,0.25)]
       "
     >
-      <Icon className="h-8 w-8 sm:h-9 sm:w-9 text-white/90 transition-transform group-hover:scale-110" />
-      <span className="text-xs sm:text-sm text-white/80">{label}</span>
+      <Icon className="h-7 w-7 sm:h-8 sm:w-8 text-white/90 transition-transform group-hover:scale-110" />
+      <span className="text-xs text-white/80">{label}</span>
     </div>
   );
-}
-
-function Divider() {
-  return <div className="mx-auto my-8 h-px w-10/12 bg-white/10" />;
 }
