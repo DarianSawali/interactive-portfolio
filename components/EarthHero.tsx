@@ -37,7 +37,7 @@ export default function EarthHero() {
           <div className="flex-1">
             <h1 className="text-5xl font-bold tracking-tight md:text-6xl">Hi, I’m Darian.</h1>
             <p className="mt-4 text-lg text-white/70">
-              I'm a Software Developer from Simon Fraser University.
+              I&apos;m a Software Developer from Simon Fraser University.
             </p>
             <div className="mt-8 flex gap-4">
               <a href="#work" className="rounded-xl bg-white px-5 py-3 text-black">View Work</a>
@@ -64,7 +64,7 @@ export default function EarthHero() {
       <section ref={skillsRef} id="skills" className="mx-auto max-w-6xl px-6 py-24">
         <h2 className="text-3xl font-semibold">Skills</h2>
         <p className="mt-3 text-white/70">
-          Placeholder content (you’ll redesign this later).
+          Placeholder content (you&apos;ll redesign this later).
         </p>
 
         <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">

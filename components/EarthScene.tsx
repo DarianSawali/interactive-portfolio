@@ -2,7 +2,7 @@
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Stars } from "@react-three/drei";
-import { Suspense, useMemo, useRef, useState } from "react";
+import { Suspense, useMemo, useRef } from "react";
 import * as THREE from "three";
 import EarthModel from "./EarthModel";
 

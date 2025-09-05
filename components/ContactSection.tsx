@@ -7,12 +7,11 @@ const EMAIL = "das14@sfu.ca";
 export default function ContactSection() {
   return (
     <section id="contact" className="mx-auto max-w-6xl px-6 py-24">
-      {/* <h2 className="mb-8 text-3xl font-semibold">Contact</h2> */}
 
       <div className="grid gap-8 md:grid-cols-2">
         <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-md">
           <p className="text-white/80">
-            I’m open to freelance, collabs, and full-time roles.
+            I&apos;m open to freelance, collabs, and full-time roles.
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
@@ -129,7 +128,9 @@ function Field({
   onChange: (v: string) => void;
 }) {
   const id = label.toLowerCase().replace(/\s+/g, "-");
-  const Tag: any = as === "textarea" ? "textarea" : "input";
+  const Tag = (as === "textarea" ? "textarea" : "input") as
+    | "textarea"
+    | "input";
 
   return (
     <label className="group relative mb-6 block">
@@ -138,7 +139,9 @@ function Field({
         type={type}
         rows={rows}
         value={value}
-        onChange={(e: any) => onChange(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+          onChange(e.target.value)
+        }
         placeholder={label}
         className="
             peer w-full appearance-none
