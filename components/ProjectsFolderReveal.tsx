@@ -3,14 +3,17 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import ProjectCard, { type Project } from "./ProjectCard";
+import { FaFolderOpen } from "react-icons/fa";
+import { jitterFor } from "@/utils/deterministic";
 
 const PROJECTS: Project[] = [
-  { title: "Nebula Finance", img: "/projects/nebula.png" },
-  { title: "Aurora Shop",   img: "/projects/aurora.png" },
-  { title: "Comet CMS",     img: "/projects/comet.png" },
-  { title: "Orbit UI",      img: "/projects/orbit.png" },
-  { title: "Pulse Docs",    img: "/projects/pulse.png" },
-  { title: "Atlas Maps",    img: "/projects/atlas.png" },
+  { title: "Movie Directory App", img: "/projects/cinescope.png", href: "https://github.com/DarianSawali/CineScope" },
+  { title: "YouTube Clone", img: "/projects/yt-clone.png", href: "https://github.com/DarianSawali/Youtube_Clone" },
+  { title: "Chat App", img: "/projects/chat-app.png", href: "https://github.com/DarianSawali/Chat-App" },
+  { title: "2.5D Puzzle Game", img: "/projects/spirit-maes.png", href: "https://github.com/DarianSawali/Spirit-Maes-Game" },
+  { title: "Geolocating App", img: "/projects/travelogger.png", href: "https://github.com/MichaelTj02/TraveLogger" },
+  { title: "2D Survival Game", img: "/projects/mystic-woods.png", href: "https://github.com/DarianSawali/Unity-Survival-Game" },
+  
 ];
 
 const FINISH_EARLY = 0.7;  
@@ -34,15 +37,9 @@ export default function ProjectsFolderRevealStack() {
   });
 
   const pileJitter = useMemo(
-    () =>
-      PROJECTS.map(() => ({
-        rot: (Math.random() - 0.5) * 18,
-        jx: (Math.random() - 0.5) * 12,
-        jy: (Math.random() - 0.5) * 10,
-        delay: Math.random() * 0.06,
-      })),
-    []
-  );
+  () => PROJECTS.map((p, i) => jitterFor(`${p.title}-${i}`)),
+  [PROJECTS.length]
+);
 
   useEffect(() => {
     const measure = () => {
@@ -112,11 +109,12 @@ function FolderLid({ progress }: { progress: MotionValue<number> }) {
   return (
     <motion.div
       style={{ rotate, y, opacity }}
-      className="mx-auto mb-8 h-14 w-28 origin-bottom rounded-t-xl bg-white/10"
-    />
+      className="mx-auto mb-8 h-14 w-28 origin-bottom flex items-center justify-center text-4xl text-white/80"
+    >
+      <FaFolderOpen className="text-white scale-200"/>
+    </motion.div>
   );
 }
-
 function CardFromPile({
   project,
   i,

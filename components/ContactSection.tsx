@@ -32,13 +32,6 @@ export default function ContactSection() {
             <li>
               <InlineIcon/> Vancouver, BC 
             </li>
-            {/* <li className="flex gap-3">
-              <a className="underline underline-offset-4 hover:text-white" href="#" target="_blank">GitHub</a>
-              <span>·</span>
-              <a className="underline underline-offset-4 hover:text-white" href="#" target="_blank">LinkedIn</a>
-              <span>·</span>
-              <a className="underline underline-offset-4 hover:text-white" href="#" target="_blank">X</a>
-            </li> */}
           </ul>
         </div>
 
@@ -156,11 +149,11 @@ function Field({
             placeholder-transparent
             transition-all duration-300
 
-            focus:border-transparent focus:rounded-none
+            focus:border-transparent focus:rounded-xl
             focus:border-b focus:border-b-white/30
 
             [&&:not(:placeholder-shown)]:border-transparent
-            [&&:not(:placeholder-shown)]:rounded-none
+            [&&:not(:placeholder-shown)]:rounded-xl
             [&&:not(:placeholder-shown)]:border-b
             [&&:not(:placeholder-shown)]:border-b-white/20
 

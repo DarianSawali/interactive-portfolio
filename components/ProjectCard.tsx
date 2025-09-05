@@ -1,54 +1,34 @@
 "use client";
-
-export type Project = {
-  title: string;
-  img?: string;
-  href?: string;
-  tags?: string[];
-};
+import Image from "next/image";
+import TiltLink from "./TiltLink"; 
+export type Project = { title: string; img?: string; href?: string; tags?: string[] };
 
 export default function ProjectCard({ project }: { project: Project }) {
-  return (
-    <article className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md">
-      <div className="aspect-[16/10] bg-white/5">
-        {project.img ? (
-          <img
+  const card = (
+    <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md transition-shadow duration-300 hover:shadow-[0_30px_80px_-30px_rgba(0,0,0,0.45)]">
+      <div className="relative aspect-[16/10] bg-white/5">
+        {project.img && (
+          <Image
             src={project.img}
             alt={project.title}
-            className="h-full w-full object-cover"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 33vw, 400px"
+            className="object-cover"
+            priority={false}
             onLoad={() => window.dispatchEvent(new Event("resize"))}
           />
-        ) : null}
+        )}
       </div>
-
       <div className="p-4">
         <div className="flex items-center justify-between gap-3">
           <h3 className="font-medium">{project.title}</h3>
           {project.href ? (
-            <a
-              href={project.href}
-              target="_blank"
-              rel="noreferrer"
-              className="text-sm text-white/70 underline underline-offset-4 hover:text-white"
-            >
-              View
-            </a>
+            <span className="text-sm text-white/70 underline underline-offset-4 group-hover:text-white"></span>
           ) : null}
         </div>
-
-        {project.tags?.length ? (
-          <div className="mt-3 flex flex-wrap gap-2">
-            {project.tags.map((t) => (
-              <span
-                key={t}
-                className="rounded-full bg-white/5 px-2.5 py-1 text-xs text-white/70 ring-1 ring-white/10"
-              >
-                {t}
-              </span>
-            ))}
-          </div>
-        ) : null}
       </div>
-    </article>
+    </div>
   );
+
+  return project.href ? <TiltLink href={project.href}>{card}</TiltLink> : card;
 }
