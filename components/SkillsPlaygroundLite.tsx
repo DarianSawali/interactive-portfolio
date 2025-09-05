@@ -22,7 +22,7 @@ export default function SkillsPlaygroundLite() {
   return (
     <section
       className="
-        relative w-full overflow-hidden rounded-3xl
+        relative w-full overflow-hidden rounded-3xl z-10
         before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-white/12
         after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-white/12
       "

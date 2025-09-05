@@ -37,7 +37,7 @@ export default function EarthHero() {
           <div className="flex-1">
             <h1 className="text-5xl font-bold tracking-tight md:text-6xl">Hi, I’m Darian.</h1>
             <p className="mt-4 text-lg text-white/70">
-              I design and build smooth, playful web experiences.
+              I'm a Software Developer from Simon Fraser University.
             </p>
             <div className="mt-8 flex gap-4">
               <a href="#work" className="rounded-xl bg-white px-5 py-3 text-black">View Work</a>

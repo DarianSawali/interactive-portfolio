@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-
-type Project = { title: string; img?: string };
+import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import ProjectCard, { type Project } from "./ProjectCard";
 
 const PROJECTS: Project[] = [
   { title: "Nebula Finance", img: "/projects/nebula.png" },
@@ -14,6 +13,9 @@ const PROJECTS: Project[] = [
   { title: "Atlas Maps",    img: "/projects/atlas.png" },
 ];
 
+const FINISH_EARLY = 0.7;  
+const EASE_EXP     = 0.9; 
+
 export default function ProjectsFolderRevealStack() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
@@ -22,16 +24,22 @@ export default function ProjectsFolderRevealStack() {
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start 90%", "end 50%"],
+    offset: ["start 60%", "start 0%"],
+  });
+
+  const prog = useTransform(scrollYProgress, (v) => {
+    const scaled = v * FINISH_EARLY;
+    const clamped = Math.min(1, Math.max(0, scaled));
+    return Math.pow(clamped, EASE_EXP);
   });
 
   const pileJitter = useMemo(
     () =>
       PROJECTS.map(() => ({
-        rot: (Math.random() - 0.5) * 18, 
-        jx: (Math.random() - 0.5) * 12, 
-        jy: (Math.random() - 0.5) * 10, 
-        delay: Math.random() * 0.08,
+        rot: (Math.random() - 0.5) * 18,
+        jx: (Math.random() - 0.5) * 12,
+        jy: (Math.random() - 0.5) * 10,
+        delay: Math.random() * 0.06,
       })),
     []
   );
@@ -61,51 +69,45 @@ export default function ProjectsFolderRevealStack() {
     };
 
     const raf = requestAnimationFrame(measure);
-
-    const ro = new ResizeObserver(() => measure());
+    const ro = new ResizeObserver(measure);
     if (gridRef.current) ro.observe(gridRef.current);
-
-    const onLoad = () => measure();
     window.addEventListener("resize", measure);
-    window.addEventListener("load", onLoad);
+    window.addEventListener("load", measure);
 
     return () => {
       cancelAnimationFrame(raf);
-      try {
-        if (gridRef.current) ro.unobserve(gridRef.current);
-      } catch {}
+      try { if (gridRef.current) ro.unobserve(gridRef.current); } catch {}
       ro.disconnect();
       window.removeEventListener("resize", measure);
-      window.removeEventListener("load", onLoad);
+      window.removeEventListener("load", measure);
     };
   }, []);
 
   return (
-    <section ref={sectionRef} className="mx-auto max-w-6xl px-6 py-24">
-      <h2 className="mb-10 text-3xl font-semibold">Projects</h2>
+    <div ref={sectionRef} className="mx-auto max-w-6xl px-6 py-24">
 
-      <FolderLid progress={scrollYProgress} />
+      <FolderLid progress={prog} />
 
       <div ref={gridRef} className="relative grid gap-5 md:grid-cols-3">
         {PROJECTS.map((p, i) => (
           <CardFromPile
             key={p.title}
-            project={p}
             i={i}
+            project={p}
             offsets={offsets}
-            progress={scrollYProgress}
+            progress={prog}
             jitter={pileJitter[i]}
           />
         ))}
       </div>
-    </section>
+    </div>
   );
 }
 
-function FolderLid({ progress }: { progress: any }) {
-  const rotate = useTransform(progress, [0.0, 0.25], [-30, 0]);
-  const y = useTransform(progress, [0.0, 0.25], ["-8px", "0px"]);
-  const opacity = useTransform(progress, [0.0, 0.12], [0, 1]);
+function FolderLid({ progress }: { progress: MotionValue<number> }) {
+  const rotate  = useTransform(progress, [0.0, 0.4], [-30, 0]);
+  const y       = useTransform(progress, [0.0, 0.4], ["-8px", "0px"]);
+  const opacity = useTransform(progress, [0.0, 0.2], [0, 1]);
 
   return (
     <motion.div
@@ -122,56 +124,34 @@ function CardFromPile({
   progress,
   jitter,
 }: {
-  project: { title: string; img?: string };
+  project: Project;
   i: number;
   offsets: { x: number; y: number }[] | null;
-  progress: any;
+  progress: MotionValue<number>;
   jitter: { rot: number; jx: number; jy: number; delay: number };
 }) {
-  if (!offsets) {
-    return (
-      <article
-        data-card
-        className="opacity-0 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md"
-      >
-        <div className="aspect-[16/10] bg-white/5" />
-        <div className="p-4">
-          <h3 className="font-medium">{project.title}</h3>
-        </div>
-      </article>
-    );
-  }
 
-  const start = 0.12 + jitter.delay;
-  const end = start + 0.48;
+  const start = 0.02 + jitter.delay;
+  const end   = start + 0.34;
 
-  const x = useTransform(progress, [start, end], [offsets[i].x + jitter.jx, 0]);
-  const y = useTransform(progress, [start, end], [offsets[i].y + jitter.jy, 0]);
-  const rotate = useTransform(progress, [start, end], [jitter.rot, 0]);
-  const scale = useTransform(progress, [start, end], [0.92, 1]);
-  const opacity = useTransform(progress, [start - 0.05, start + 0.1], [0, 1]);
+  const baseX = offsets?.[i]?.x ?? 0;
+  const baseY = offsets?.[i]?.y ?? 0;
+
+  const x       = useTransform(progress, [start, end], [baseX + jitter.jx, 0]);
+  const y       = useTransform(progress, [start, end], [baseY + jitter.jy, 0]);
+  const rotate  = useTransform(progress, [start, end], [jitter.rot, 0]);
+  const scale   = useTransform(progress, [start, end], [0.92, 1]);
+  const opacity = useTransform(progress, [start - 0.06, start + 0.1], [0, 1]);
+
+  const hidden = offsets == null;
 
   return (
-    <motion.article
+    <motion.div
       data-card
-      style={{ x, y, rotate, scale, opacity }}
-      className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md"
+      style={{ x, y, rotate, scale, opacity: hidden ? 0 : opacity }}
+      className="relative"
     >
-      <div className="aspect-[16/10] bg-white/5">
-        {project.img ? (
-          <img
-            src={project.img}
-            alt=""
-            className="h-full w-full object-cover"
-            onLoad={() => {
-              window.dispatchEvent(new Event("resize"));
-            }}
-          />
-        ) : null}
-      </div>
-      <div className="p-4">
-        <h3 className="font-medium">{project.title}</h3>
-      </div>
-    </motion.article>
+      <ProjectCard project={project} />
+    </motion.div>
   );
 }

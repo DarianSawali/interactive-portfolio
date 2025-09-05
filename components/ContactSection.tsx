@@ -7,13 +7,12 @@ const EMAIL = "das14@sfu.ca";
 export default function ContactSection() {
   return (
     <section id="contact" className="mx-auto max-w-6xl px-6 py-24">
-      <h2 className="mb-8 text-3xl font-semibold">Contact</h2>
+      {/* <h2 className="mb-8 text-3xl font-semibold">Contact</h2> */}
 
       <div className="grid gap-8 md:grid-cols-2">
         <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-md">
           <p className="text-white/80">
-            Want to build something playful and performant? I’m open to freelance,
-            collabs, and full-time roles.
+            I’m open to freelance, collabs, and full-time roles.
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
@@ -31,15 +30,15 @@ export default function ContactSection() {
               <InlineIcon/> {EMAIL}
             </li>
             <li>
-              <InlineIcon/> Vancouver, BC (remote-friendly)
+              <InlineIcon/> Vancouver, BC 
             </li>
-            <li className="flex gap-3">
+            {/* <li className="flex gap-3">
               <a className="underline underline-offset-4 hover:text-white" href="#" target="_blank">GitHub</a>
               <span>·</span>
               <a className="underline underline-offset-4 hover:text-white" href="#" target="_blank">LinkedIn</a>
               <span>·</span>
               <a className="underline underline-offset-4 hover:text-white" href="#" target="_blank">X</a>
-            </li>
+            </li> */}
           </ul>
         </div>
 
@@ -90,12 +89,12 @@ function ContactForm() {
       className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-md"
     >
       <Field
-        label="Your name"
+        label="Name"
         value={state.name}
         onChange={(v) => setState((s) => ({ ...s, name: v }))}
       />
       <Field
-        label="Your email"
+        label="Email"
         type="email"
         value={state.email}
         onChange={(v) => setState((s) => ({ ...s, email: v }))}
@@ -140,27 +139,73 @@ function Field({
   const Tag: any = as === "textarea" ? "textarea" : "input";
 
   return (
-    <label className="group relative mb-4 block">
+    <label className="group relative mb-6 block">
       <Tag
         id={id}
         type={type}
         rows={rows}
         value={value}
         onChange={(e: any) => onChange(e.target.value)}
-        className="peer w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 outline-none placeholder-transparent focus:border-white/30"
         placeholder={label}
-      />
+        className="
+            peer w-full appearance-none
+            [color-scheme:dark]
+            bg-white/[0.04] text-white/90 outline-none
+            px-4 py-3
+            border border-white/12 rounded-xl
+            placeholder-transparent
+            transition-all duration-300
+
+            focus:border-transparent focus:rounded-none
+            focus:border-b focus:border-b-white/30
+
+            [&&:not(:placeholder-shown)]:border-transparent
+            [&&:not(:placeholder-shown)]:rounded-none
+            [&&:not(:placeholder-shown)]:border-b
+            [&&:not(:placeholder-shown)]:border-b-white/20
+
+            autofill:bg-transparent
+            autofill:text-white
+            autofill:shadow-[inset_0_0_0_1000px_rgba(255,255,255,0.04)]
+            autofill:[-webkit-text-fill-color:rgba(255,255,255,0.92)]
+            autofill:[caret-color:rgba(255,255,255,0.92)]
+        "
+        />
+
+
       <span
         className="
-          pointer-events-none absolute left-4 top-3
-          origin-left text-sm text-white/60 transition-all
+          pointer-events-none absolute left-4 top-3 origin-left
+          text-sm text-white/60 transition-all duration-300
           peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100
-          peer-focus:-translate-y-5 peer-focus:scale-90
-          peer-not-placeholder-shown:-translate-y-5 peer-not-placeholder-shown:scale-90
+          peer-focus:-translate-y-5 peer-focus:scale-100
+          peer-[&:not(:placeholder-shown)]:-translate-y-5
+          peer-[&:not(:placeholder-shown)]:scale-90
         "
       >
         {label}
       </span>
+      
+      <span
+        aria-hidden
+        className="
+          pointer-events-none absolute left-3 right-3 bottom-0
+          h-px bg-white/10 transition-all duration-300
+          peer-focus:opacity-0 peer-[&:not(:placeholder-shown)]:opacity-0
+        "
+      />
+
+      <span
+        aria-hidden
+        className="
+          pointer-events-none absolute left-0 right-0 bottom-0
+          h-[2px] origin-left scale-x-0
+          bg-gradient-to-r from-fuchsia-400 to-cyan-300
+          transition-transform duration-300
+          peer-focus:scale-x-100
+          peer-[&:not(:placeholder-shown)]:scale-x-100
+        "
+      />
     </label>
   );
 }

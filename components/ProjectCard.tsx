@@ -1,4 +1,3 @@
-// components/ProjectCard.tsx
 "use client";
 
 export type Project = {
@@ -21,6 +20,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           />
         ) : null}
       </div>
+
       <div className="p-4">
         <div className="flex items-center justify-between gap-3">
           <h3 className="font-medium">{project.title}</h3>
@@ -29,7 +29,7 @@ export default function ProjectCard({ project }: { project: Project }) {
               href={project.href}
               target="_blank"
               rel="noreferrer"
-              className="text-sm text-white/70 hover:text-white/90 underline-offset-4 hover:underline"
+              className="text-sm text-white/70 underline underline-offset-4 hover:text-white"
             >
               View
             </a>
@@ -41,7 +41,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             {project.tags.map((t) => (
               <span
                 key={t}
-                className="rounded-full bg-white/5 px-2.5 py-1 text-xs text-white/70 ring-1 ring-white/10 "
+                className="rounded-full bg-white/5 px-2.5 py-1 text-xs text-white/70 ring-1 ring-white/10"
               >
                 {t}
               </span>
