@@ -9,8 +9,6 @@ export default function SkillsSection() {
       <SkillsPlaygroundIcons />
 
       <SkillsCatalog />
-
-      <SkillsMeter />
     </section>
   );
 }
