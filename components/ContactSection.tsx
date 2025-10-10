@@ -68,45 +68,50 @@ function CopyEmailButton({ email }: { email: string }) {
 
 function ContactForm() {
   const [state, setState] = useState({ name: "", email: "", message: "" });
-  const disabled = !state.name || !state.email || !state.message;
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState<null | "ok" | "err">(null);
+
+  const disabled = sending || !state.name || !state.email || !state.message;
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setSending(true);
+    setSent(null);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(state),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.ok) throw new Error(json.error || "Failed");
+      setSent("ok");
+      setState({ name: "", email: "", message: "" });
+    } catch {
+      setSent("err");
+    } finally {
+      setSending(false);
+    }
+  }
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        const subject = encodeURIComponent(`Hello from ${state.name}`);
-        const body = encodeURIComponent(`${state.message}\n\n— ${state.name} (${state.email})`);
-        window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
-      }}
-      className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-md"
-    >
-      <Field
-        label="Name"
-        value={state.name}
-        onChange={(v) => setState((s) => ({ ...s, name: v }))}
-      />
-      <Field
-        label="Email"
-        type="email"
-        value={state.email}
-        onChange={(v) => setState((s) => ({ ...s, email: v }))}
-      />
-      <Field
-        label="Message"
-        as="textarea"
-        rows={5}
-        value={state.message}
-        onChange={(v) => setState((s) => ({ ...s, message: v }))}
-      />
+    <form onSubmit={onSubmit} className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-md">
+      {/* your Field components unchanged */}
+      <Field label="Name" value={state.name} onChange={(v) => setState(s => ({ ...s, name: v }))} />
+      <Field label="Email" type="email" value={state.email} onChange={(v) => setState(s => ({ ...s, email: v }))} />
+      <Field label="Message" as="textarea" rows={5} value={state.message} onChange={(v) => setState(s => ({ ...s, message: v }))} />
 
-      <div className="mt-4 flex gap-3">
+      <div className="mt-4 flex items-center gap-3">
         <button
           type="submit"
           disabled={disabled}
           className="rounded-xl bg-white px-5 py-3 text-sm font-medium text-black disabled:cursor-not-allowed disabled:opacity-60"
         >
-          Send
+          {sending ? "Sending..." : "Send"}
         </button>
+        {sent === "ok" && <span className="text-sm text-emerald-300">Sent! I’ll get back to you soon.</span>}
+        {sent === "err" && <span className="text-sm text-rose-300">Oops, something went wrong.</span>}
       </div>
     </form>
   );
