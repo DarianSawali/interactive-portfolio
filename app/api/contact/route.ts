@@ -1,6 +1,8 @@
 // app/api/contact/route.ts
 import { Resend } from "resend";
 
+export const runtime = "nodejs";
+
 export async function POST(req: Request) {
   try {
     const { name, email, message, company } = await req.json();
@@ -21,11 +23,15 @@ export async function POST(req: Request) {
     }
 
     const resend = new Resend(apiKey);
+    const recipients = to
+      .split(",")
+      .map((value) => value.trim())
+      .filter(Boolean);
 
     // Resend SDK returns { data, error }
     const { data, error } = await resend.emails.send({
       from,
-      to,             // can be string or array
+      to: recipients,
       replyTo: email, // this is the correct key
       subject: `Portfolio contact — ${name}`,
       html: `

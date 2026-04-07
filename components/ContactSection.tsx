@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const EMAIL = "das14@sfu.ca"; 
+const EMAIL = "darianaxelsawali@gmail.com"; 
 
 export default function ContactSection() {
   return (
@@ -67,7 +67,7 @@ function CopyEmailButton({ email }: { email: string }) {
 }
 
 function ContactForm() {
-  const [state, setState] = useState({ name: "", email: "", message: "" });
+  const [state, setState] = useState({ name: "", email: "", message: "", company: "" });
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState<null | "ok" | "err">(null);
 
@@ -87,7 +87,7 @@ function ContactForm() {
       const json = await res.json();
       if (!res.ok || !json.ok) throw new Error(json.error || "Failed");
       setSent("ok");
-      setState({ name: "", email: "", message: "" });
+      setState({ name: "", email: "", message: "", company: "" });
     } catch {
       setSent("err");
     } finally {
@@ -97,6 +97,16 @@ function ContactForm() {
 
   return (
     <form onSubmit={onSubmit} className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-md">
+      <input
+        type="text"
+        name="company"
+        value={state.company}
+        onChange={(e) => setState((s) => ({ ...s, company: e.target.value }))}
+        tabIndex={-1}
+        autoComplete="off"
+        className="hidden"
+        aria-hidden="true"
+      />
       {/* your Field components unchanged */}
       <Field label="Name" value={state.name} onChange={(v) => setState(s => ({ ...s, name: v }))} />
       <Field label="Email" type="email" value={state.email} onChange={(v) => setState(s => ({ ...s, email: v }))} />
