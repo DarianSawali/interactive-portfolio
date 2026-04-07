@@ -16,10 +16,13 @@ export async function POST(req: Request) {
 
     const apiKey = process.env.RESEND_API_KEY;
     const to = process.env.CONTACT_TO;
-    const from = process.env.CONTACT_FROM || "Portfolio <onboarding@resend.dev>";
+    const from = process.env.CONTACT_FROM;
 
-    if (!apiKey || !to) {
-      return new Response(JSON.stringify({ ok: false, error: "Server not configured" }), { status: 500 });
+    if (!apiKey || !to || !from) {
+      return new Response(
+        JSON.stringify({ ok: false, error: "Server not configured: missing RESEND_API_KEY, CONTACT_TO, or CONTACT_FROM" }),
+        { status: 500 }
+      );
     }
 
     const resend = new Resend(apiKey);

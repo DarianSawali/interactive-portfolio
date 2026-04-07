@@ -20,7 +20,7 @@ Required variables:
 
 - Add and verify your domain in Resend (DNS records).
 - Use a `CONTACT_FROM` address from that verified domain.
-- `onboarding@resend.dev` is good for initial local testing only.
+- `CONTACT_FROM` is required by the API route in all environments (including deployment).
 
 ## 3) Run and test locally
 
