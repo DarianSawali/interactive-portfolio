@@ -29,7 +29,7 @@ export default function Footer() {
             </li>
             <li>
               <a
-                href="https://www.linkedin.com/in/DarianSawali"
+                href="https://www.linkedin.com/in/dariansawali/"
                 target="_blank"
                 rel="noreferrer"
                 className="group relative inline-block px-2 py-1 text-white/80 hover:text-white"

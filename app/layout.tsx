@@ -8,10 +8,20 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata = {
   title: "Darian Sawali",
+  description: "Portfolio of Darian Sawali, a software developer based in Vancouver, BC.",
+  openGraph: {
+    title: "Darian Sawali | Software Developer",
+    description: "Selected projects, skills, and contact information for Darian Sawali.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Darian Sawali | Software Developer",
+    description: "Selected projects, skills, and contact information for Darian Sawali.",
+  },
   icons: {
     icon: "/favicon.png",
     shortcut: "/favicon.png",
-    apple: "/favicon.png",
   },
 };
 

@@ -6,7 +6,7 @@ const EMAIL = "darianaxelsawali@gmail.com";
 
 export default function ContactSection() {
   return (
-    <section id="contact" className="mx-auto max-w-6xl px-6 py-24">
+    <div className="mx-auto max-w-6xl px-6 py-24">
 
       <div className="grid gap-8 md:grid-cols-2">
         <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-md">
@@ -36,7 +36,7 @@ export default function ContactSection() {
 
         <ContactForm />
       </div>
-    </section>
+    </div>
   );
 }
 
@@ -120,8 +120,10 @@ function ContactForm() {
         >
           {sending ? "Sending..." : "Send"}
         </button>
-        {sent === "ok" && <span className="text-sm text-emerald-300">Sent! I’ll get back to you soon.</span>}
-        {sent === "err" && <span className="text-sm text-rose-300">Oops, something went wrong.</span>}
+        <span aria-live="polite" role="status">
+          {sent === "ok" && <span className="text-sm text-emerald-300">Sent! I’ll get back to you soon.</span>}
+          {sent === "err" && <span className="text-sm text-rose-300">Oops, something went wrong.</span>}
+        </span>
       </div>
     </form>
   );
@@ -151,6 +153,7 @@ function Field({
     <label className="group relative mb-6 block">
       <Tag
         id={id}
+        name={id}
         type={type}
         rows={rows}
         value={value}
@@ -158,6 +161,9 @@ function Field({
           onChange(e.target.value)
         }
         placeholder={label}
+        required
+        maxLength={as === "textarea" ? 5000 : type === "email" ? 254 : 100}
+        autoComplete={as === "textarea" ? undefined : type === "email" ? "email" : "name"}
         className="
             peer w-full appearance-none
             [color-scheme:dark]

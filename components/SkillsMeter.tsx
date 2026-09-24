@@ -21,7 +21,7 @@ export default function SkillsMeters() {
   return (
     <section className="mx-auto max-w-6xl px-6 py-10">
       <div className="grid gap-4 md:grid-cols-2">
-        {METERS.map((m, i) => (
+        {METERS.map((m) => (
           <div key={m.label} className="rounded-xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-md">
             <div className="mb-2 flex items-center justify-between text-sm">
               <span className="text-white/80">{m.label}</span>

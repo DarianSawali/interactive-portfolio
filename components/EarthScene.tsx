@@ -1,6 +1,6 @@
 "use client";
 
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame, useThree, type ThreeEvent } from "@react-three/fiber";
 import { Environment, Stars } from "@react-three/drei";
 import { Suspense, useMemo, useRef } from "react";
 import * as THREE from "three";
@@ -47,7 +47,7 @@ export default function EarthScene({ progress, pinMode }: { progress: number; pi
 
         <StarsParallax progress={progress} pointer={pointer} />
 
-        <EarthRig progress={progress} pinMode={pinMode} pointer={pointer} />
+        <EarthRig progress={progress} pinMode={pinMode} />
       </Suspense>
     </Canvas>
   );
@@ -87,25 +87,20 @@ function StarsParallax({
 function EarthRig({
   progress,
   pinMode,
-  pointer,
 }: {
   progress: number;
   pinMode: boolean;
-  pointer: React.MutableRefObject<{ x: number; y: number }>;
 }) {
   const group = useRef<THREE.Group>(null!);
   const { viewport } = useThree();
   const p = THREE.MathUtils.clamp(progress, 0, 1);
 
-  const wx = (f: number) => viewport.width * f;
-  const wy = (f: number) => viewport.height * f;
-
   const { start, ctrl, end, startScale, endScale } = useMemo(() => {
     const base = THREE.MathUtils.clamp(viewport.height * ORB_PATH.scale.baseVh, 0.9, 1.8);
     return {
-      start: new THREE.Vector3(wx(ORB_PATH.start.x), wy(ORB_PATH.start.y), ORB_PATH.start.z),
-      ctrl:  new THREE.Vector3(wx(ORB_PATH.ctrl.x),  wy(ORB_PATH.ctrl.y),  ORB_PATH.ctrl.z),
-      end:   new THREE.Vector3(wx(ORB_PATH.end.x),   wy(ORB_PATH.end.y),   ORB_PATH.end.z),
+      start: new THREE.Vector3(viewport.width * ORB_PATH.start.x, viewport.height * ORB_PATH.start.y, ORB_PATH.start.z),
+      ctrl:  new THREE.Vector3(viewport.width * ORB_PATH.ctrl.x, viewport.height * ORB_PATH.ctrl.y, ORB_PATH.ctrl.z),
+      end:   new THREE.Vector3(viewport.width * ORB_PATH.end.x, viewport.height * ORB_PATH.end.y, ORB_PATH.end.z),
       startScale: base * ORB_PATH.scale.startMul,
       endScale:   base * ORB_PATH.scale.endMul,
     };
@@ -125,17 +120,17 @@ function EarthRig({
 
   const dragging = useRef(false);
   const last = useRef<{ x: number; y: number } | null>(null);
-  function onPointerDown(e: any) {
+  function onPointerDown(e: ThreeEvent<PointerEvent>) {
     dragging.current = true;
     last.current = { x: e.clientX, y: e.clientY };
     (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
   }
-  function onPointerUp(e: any) {
+  function onPointerUp(e: ThreeEvent<PointerEvent>) {
     dragging.current = false;
     last.current = null;
     (e.target as HTMLElement).releasePointerCapture?.(e.pointerId);
   }
-  function onPointerMove(e: any) {
+  function onPointerMove(e: ThreeEvent<PointerEvent>) {
     if (!dragging.current || !group.current || !last.current) return;
     const dx = e.clientX - last.current.x;
     const dy = e.clientY - last.current.y;

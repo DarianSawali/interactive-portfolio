@@ -1,7 +1,8 @@
 
 "use client";
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import Image from "next/image";
 
 const PROJECTS = [
   { title: "Nebula Finance", img: "/projects/nebula.png" },
@@ -34,7 +35,7 @@ function CardDiagonal({
 }: {
   p: { title: string; img: string };
   i: number;
-  progress: any;
+  progress: MotionValue<number>;
 }) {
 
   const start = i * 0.08;
@@ -58,8 +59,8 @@ function CardDiagonal({
       style={{ x, y, scale, opacity, boxShadow: shadow }}
       className="rounded-2xl overflow-hidden border border-white/10 bg-white/[0.04] backdrop-blur-md"
     >
-      <div className="aspect-[16/10] bg-white/5">
-        {p.img ? <img src={p.img} alt="" className="h-full w-full object-cover" /> : null}
+      <div className="relative aspect-[16/10] bg-white/5">
+        {p.img ? <Image src={p.img} alt={p.title} fill className="object-cover" /> : null}
       </div>
       <div className="p-4">
         <h3 className="font-medium">{p.title}</h3>

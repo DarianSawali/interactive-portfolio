@@ -15,6 +15,8 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [activeId, setActiveId] = useState<string>("#hero");
   const barRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const ids = LINKS.map((l) => l.href.replace("#", ""));
@@ -49,11 +51,17 @@ export default function Navbar() {
     document.body.style.overflow = open ? "hidden" : "";
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     window.addEventListener("keydown", onKey);
+    if (open) closeButtonRef.current?.focus();
     return () => {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", onKey);
     };
   }, [open]);
+
+  function closeMenu() {
+    setOpen(false);
+    requestAnimationFrame(() => menuButtonRef.current?.focus());
+  }
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
@@ -89,6 +97,7 @@ export default function Navbar() {
         </ul>
 
         <button
+          ref={menuButtonRef}
           className="md:hidden rounded-lg p-2 ring-1 ring-white/10 bg-white/5 text-white"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
@@ -107,11 +116,14 @@ export default function Navbar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setOpen(false)}
+              onClick={closeMenu}
             />
 
             <motion.nav
               id="mobile-menu"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Site navigation"
               className="md:hidden fixed right-0 top-0 z-50 h-full w-72 max-w-[85%] transform-gpu bg-neutral-900/90 backdrop-blur-xl ring-1 ring-white/10"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
@@ -121,8 +133,9 @@ export default function Navbar() {
               <div className="px-4 py-3 flex items-center justify-between">
                 <span className="text-white/90 font-medium">Menu</span>
                 <button
+                  ref={closeButtonRef}
                   className="rounded-lg p-2 ring-1 ring-white/10 bg-white/5 text-white"
-                  onClick={() => setOpen(false)}
+                  onClick={closeMenu}
                   aria-label="Close menu"
                 >
                   <FiX size={18} />
@@ -134,7 +147,7 @@ export default function Navbar() {
                   <li key={l.href}>
                     <a
                       href={l.href}
-                      onClick={() => setOpen(false)}
+                      onClick={closeMenu}
                       className="group relative block rounded-xl px-4 py-3 text-white/90 hover:text-white"
                     >
                       {l.label}
